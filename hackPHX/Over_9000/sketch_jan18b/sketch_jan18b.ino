@@ -3,11 +3,12 @@
 #include <ADXL345.h>
 #include <SeeedOLED.h>
 #include <math.h>
+#include <string>
 
 #define DEBUG 0
 
 // Number of LEDs
-#define NUM_LEDS 6
+#define NUM_LEDS 9
 #define DATA_PIN 15
 #define CLOCK_PIN 13
 
@@ -24,22 +25,14 @@ void setup(){
   initSerial();
   initDisplay();
   FastLED.addLeds<NEOPIXEL, DATA_PIN, RGB>(leds, NUM_LEDS);
+  delay(2000);
 }
 
 void loop() {
   //Boring accelerometer stuff
   int x,y,z;
   
-  // Decrement powerLevel
-  if (powerLevel > 0) {
-    powerLevel -= 25;
-    if (powerLevel < 200) {
-        SeeedOled.setTextXY(6,0);
-        SeeedOled.putString("   ");
-    }
-  }
-  
-  // Increment count
+  // Increment count and handle 3-axis debug output
   if (++count = 4) {
     if (DEBUG) {
       // Output x,y,z values
@@ -48,7 +41,7 @@ void loop() {
       Serial.print(" , ");
       Serial.print(y);
       Serial.print(" , ");
-      Serial.println(z);
+      Serial.print(z);
     
       // Print vector names
       refreshDataDisplay();
@@ -59,29 +52,155 @@ void loop() {
       SeeedOled.setTextXY(2,5);           //Set the cursor to 0th Page, 0th Column
       SeeedOled.putNumber((int) y);
       SeeedOled.setTextXY(3,5);           //Set the cursor to 0th Page, 0th Column
-      SeeedOled.putNumber((int) z);
+      SeeedOled.putNumber((int) z);    
     }
     
+    // Clear the readout
+    SeeedOled.setTextXY(3,5);
+    SeeedOled.putString("     ");
+    
+    // Decrement powerLevel on idle
+    if (powerLevel > 0) {
+      powerLevel -= 250;
+    }
+  
+    // Reset the count
     count = 0;
   }
   
-  adxl.readXYZ(&x, &y, &z); //read the accelerometer values and store them in variables  x,y,z
+  //read the accelerometer values and store them in variables  x,y,z
+  adxl.readXYZ(&x, &y, &z); 
 
   // Calculate new power level
   powerLevel += get_powerLevel();
   
   // Print the power level
   print_powerLevel();
+  
+  // Draw a power meter
+  clearRow();
+  draw_powerMeter(powerLevel);
+
+  // Update the LED strip to represent the power level
+  updateLED(powerLevel);
 
   count++;
   delay(125);
 }
 
+void updateLED(int x) {
+    // Input: Number of LEDs to turn on
+    int i, j;
+    
+    x = x/1000;
+    
+    if (x <= 9) {
+      // Turn on correct number of LEDs
+      for (i=0; i<x; i++) {
+         leds[i] = CRGB::Red;
+      }
+      
+      // Turn off all remaining LEDs
+      for (j=NUM_LEDS-1; j>=x; j--) {
+         leds[j] = CRGB::Black;
+      }
+      
+      // Update the light setting
+      FastLED.show();
+    } else {
+        blinkAll();
+    }
+}
+
+void blinkAll(){
+  // Set all LEDs to Black
+  for (int i=0; i<NUM_LEDS; i++) {
+       leds[i] = CRGB::Black;
+  }
+  FastLED.show();
+  delay(50);
+  // Set all LEDs to Red (aka. Green)
+  for (int i=0; i<NUM_LEDS; i++) {
+       leds[i] = CRGB::Green;
+  }
+  FastLED.show();
+}
+
+void clearRow() {
+  // Clear the 5th row
+  SeeedOled.setTextXY(5,2);
+  SeeedOled.putString("              ");
+}
+
+void draw_powerMeter(int x) {
+    int i, j;
+    char* meterString;
+    x = x/1000;
+
+    SeeedOled.setTextXY(5,1);
+    SeeedOled.putString("[");
+
+    switch (x) {
+      case 0:
+        meterString = "";
+        break;
+      case 1:
+        meterString = "#";
+        break;
+      case 2:
+        meterString = "##";
+        break;
+      case 3:
+        meterString = "###";
+        break;
+      case 4:
+        meterString = "####";
+        break;
+      case 5:
+        meterString = "#####";
+        break;
+      case 6:
+        meterString = "######";
+        break;
+      case 7:
+        meterString = "#######";
+        break;
+      case 8:
+        meterString = "########";
+        break;
+      case 9:
+        meterString = "#########";
+        break;
+      default:
+        meterString = "Over 9,000!";
+        break;
+    }
+
+    SeeedOled.setTextXY(5,2);
+    SeeedOled.putString(meterString);
+    SeeedOled.setTextXY(5,13);
+    SeeedOled.putString("]");
+}
+
 void print_powerLevel() {
-    SeeedOled.setTextXY(4,0);
-    SeeedOled.putString("Power Level :");
-    SeeedOled.setTextXY(6,0);
+    if (DEBUG) {
+      Serial.print("Power level :\n");
+      Serial.print(powerLevel);
+      Serial.print("\n");
+    }
+    
+    SeeedOled.setTextXY(1,0);
+    SeeedOled.putString("  Power Level  ");
+    SeeedOled.setTextXY(2,0);
+    SeeedOled.putString(" --------------");
+    SeeedOled.setTextXY(3,0);
+    SeeedOled.putString("|  > ");
+    SeeedOled.setTextXY(3,15);
+    SeeedOled.putString("|");
+    SeeedOled.setTextXY(3,5);
     SeeedOled.putNumber(powerLevel);
+    SeeedOled.setTextXY(4,0);
+    SeeedOled.putString(" --------------");
 }
 
 int get_powerLevel() {
@@ -98,7 +217,7 @@ int get_powerLevel() {
   diff_by = abs(y) - abs(b);
   diff_cz = abs(z) - abs(c);
   if ((diff_ax > 10) || (diff_by > 10) || (diff_cz > 10)) {
-      return 100;
+      return 1000;
   } else
       return 0;
 }
