@@ -1,0 +1,23 @@
+The GG-Killer
+
+Read the display:
+
+	1.		Power Level
+	2.	 -----------------
+	3.	|   > 0           |
+	4.   -----------------
+	5.	Distance    :0 "0 ' 
+
+
+	row 1 - display label
+	row 2 - display placeholder
+	row 3 - power level data
+	row 4 - display placeholder
+	row 5 - ping module data
+
+
+Functionality:
+
+	Power level is calculated using a 3-axis accelerometer.
+	Any motion within a certain tolerance causes the user's
+	power level to increase.

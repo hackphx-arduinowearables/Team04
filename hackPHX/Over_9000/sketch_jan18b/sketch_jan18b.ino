@@ -1,9 +1,20 @@
+/*#########################################
+ #                Team 4                  #
+ #            "The GG-Killer"             #
+ ##########################################
+ #  Created by:                           #
+ #    Todd Harrison,  "Arduino-King"      #
+ #    Chad Stearns,   "Craft-Master"      #
+ #    Joe Fleming,    "Jack-of-All-Trades"#
+ #    Doug Sheridan,  "The Hacker"        #
+ ##########################################*/
 #include <Wire.h>
 #include "FastLED.h"
 #include <ADXL345.h>
 #include <SeeedOLED.h>
 #include <math.h>
 #include <string>
+#include <cstdlib.h>
 
 #define DEBUG 0
 
@@ -21,65 +32,45 @@ ADXL345 adxl; //variable adxl is an instance of the ADXL345 library
 int powerLevel;
 int count;
 
-void setup(){
+// Ping variables
+int pingPin = 5;  // pin for ping sensor (should use A5 on xadow)
+int ledPin = 1;   // pin turn on LED (should use 1 on xadow)
+long duration;    // duration for ping return with evaluates to distance
+long inches;      // inches to object
+long feet;        // feet to object
+
+void setup() {
   initSerial();
   initDisplay();
+  pingSetup();
   FastLED.addLeds<NEOPIXEL, DATA_PIN, RGB>(leds, NUM_LEDS);
-  delay(2000);
 }
 
 void loop() {
-  //Boring accelerometer stuff
+  // Get accelerometer data
   int x,y,z;
-  
-  // Increment count and handle 3-axis debug output
-  if (++count = 4) {
-    if (DEBUG) {
-      // Output x,y,z values
-      Serial.print("values of X , Y , Z: ");
-      Serial.print(x);
-      Serial.print(" , ");
-      Serial.print(y);
-      Serial.print(" , ");
-      Serial.print(z);
-    
-      // Print vector names
-      refreshDataDisplay();
-      
-      // Print vector values
-      SeeedOled.setTextXY(1,5);           //Set the cursor to 0th Page, 0th Column
-      SeeedOled.putNumber((int) x);
-      SeeedOled.setTextXY(2,5);           //Set the cursor to 0th Page, 0th Column
-      SeeedOled.putNumber((int) y);
-      SeeedOled.setTextXY(3,5);           //Set the cursor to 0th Page, 0th Column
-      SeeedOled.putNumber((int) z);    
-    }
-    
-    // Clear the readout
-    SeeedOled.setTextXY(3,5);
-    SeeedOled.putString("     ");
-    
-    // Decrement powerLevel on idle
-    if (powerLevel > 0) {
-      powerLevel -= 250;
-    }
-  
-    // Reset the count
-    count = 0;
-  }
-  
-  //read the accelerometer values and store them in variables  x,y,z
-  adxl.readXYZ(&x, &y, &z); 
 
-  // Calculate new power level
+  //read the accelerometer values and store them in variables  x,y,z
+  adxl.readXYZ(&x, &y, &z);
+
+  // Perform all Ping ops
+  pingStart();
+  
+  // Decrease power level periodically
+  dec_powerLevel();
+
+  // Calculate the new power level
   powerLevel += get_powerLevel();
   
   // Print the power level
   print_powerLevel();
-  
-  // Draw a power meter
-  clearRow();
+
+  // Draw the power meter
+  clear_5thRow();
   draw_powerMeter(powerLevel);
+
+  // Print the ping data
+  print_pingData();
 
   // Update the LED strip to represent the power level
   updateLED(powerLevel);
@@ -89,7 +80,7 @@ void loop() {
 }
 
 void updateLED(int x) {
-    // Input: Number of LEDs to turn on
+    // Input x : Number of LEDs to turn on
     int i, j;
     
     x = x/1000;
@@ -126,7 +117,13 @@ void blinkAll(){
   FastLED.show();
 }
 
-void clearRow() {
+void clearPL() {
+  // Clear powerLevel area
+  SeeedOled.setTextXY(3,5);
+  SeeedOled.putString("          ");
+}
+
+void clear_5thRow() {
   // Clear the 5th row
   SeeedOled.setTextXY(5,2);
   SeeedOled.putString("              ");
@@ -168,11 +165,8 @@ void draw_powerMeter(int x) {
       case 8:
         meterString = "########";
         break;
-      case 9:
-        meterString = "#########";
-        break;
       default:
-        meterString = "Over 9,000!";
+        meterString = "OVER 9000!!";
         break;
     }
 
@@ -182,13 +176,28 @@ void draw_powerMeter(int x) {
     SeeedOled.putString("]");
 }
 
-void print_powerLevel() {
-    if (DEBUG) {
-      Serial.print("Power level :\n");
-      Serial.print(powerLevel);
-      Serial.print("\n");
+void print_pingData() {
+    long fixedInches;
+
+    if (inches >= 12) {
+      fixedInches = inches % 12;
+    } else {
+      fixedInches = inches;
     }
-    
+
+    SeeedOled.setTextXY(6,0);
+    SeeedOled.putString("Distance :");
+    SeeedOled.setTextXY(6,10);
+    SeeedOled.putNumber(feet);
+    SeeedOled.setTextXY(6,12);
+    SeeedOled.putString("\'");
+    SeeedOled.setTextXY(6,13);
+    SeeedOled.putNumber(fixedInches);
+    SeeedOled.setTextXY(6,15);
+    SeeedOled.putString("\"");
+}
+
+void print_powerLevel() {
     SeeedOled.setTextXY(1,0);
     SeeedOled.putString("  Power Level  ");
     SeeedOled.setTextXY(2,0);
@@ -201,6 +210,34 @@ void print_powerLevel() {
     SeeedOled.putNumber(powerLevel);
     SeeedOled.setTextXY(4,0);
     SeeedOled.putString(" --------------");
+}
+
+void negSafety() {
+  if (powerLevel < 0) {
+      powerLevel = 0;
+  }
+  clearPL();
+  print_powerLevel();
+}
+
+void dec_powerLevel() {
+  // Increment count, handles decrementing the powerLevel
+  if (++count = 4) {
+    // Clear the readout
+    SeeedOled.setTextXY(3,5);
+    SeeedOled.putString("     ");
+    
+    // Decrement powerLevel on idle
+    if (powerLevel > 0) {
+      powerLevel -= rand() % 700;
+    }
+
+    // Protect powerLevel from going into the negatives
+    negSafety();
+
+    // Reset the count
+    count = 0;
+  }
 }
 
 int get_powerLevel() {
@@ -216,10 +253,63 @@ int get_powerLevel() {
   diff_ax = abs(x) - abs(a);
   diff_by = abs(y) - abs(b);
   diff_cz = abs(z) - abs(c);
-  if ((diff_ax > 10) || (diff_by > 10) || (diff_cz > 10)) {
-      return 1000;
+  if ((diff_ax > 15) || (diff_by > 15) || (diff_cz > 15)) {
+      return rand() % 500 + 1000;
   } else
       return 0;
+}
+
+void pingStart() {
+  ping();
+  
+  //turn on led if objects are under 3 feet
+  if (feet < 3) {
+     digitalWrite(ledPin, HIGH);
+  }
+  else {
+     digitalWrite(ledPin, LOW);
+  }
+  
+  if (inches < 24) {
+    Serial.print("inches=");
+    Serial.print(inches);  
+  }
+  else {
+    Serial.print("feet=");
+    Serial.print(feet);
+  }
+  
+  Serial.println();
+}
+
+void pingSetup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+  digitalWrite(ledPin, LOW);    //make sure this is off
+}
+
+void ping() {
+  // The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
+  // We give a short LOW pulse beforehand to ensure a clean HIGH pulse.
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+
+  // The same pin is used to read the signal from the PING))): a HIGH
+  // pulse whose duration is the time (in microseconds) from the sending
+  // of the ping to the reception of its echo off of an object.
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH);
+  // convert the time into a distance
+  inches = microsecondsToInches(duration); 
+  feet = inches / 12;
+}
+
+long microsecondsToInches(long microseconds) {
+  return microseconds / 74 / 2;
 }
 
 void refreshDataDisplay() {
