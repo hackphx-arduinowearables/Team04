@@ -1,0 +1,17 @@
+The GG-Killer
+
+How to read the display:
+
+1.		Power Level
+2.	 -----------------
+3.	|   > 0           |
+4.   -----------------
+5.	Distance    :0 "0 ' 
+
+
+row 1 - display label
+row 2 - display placeholder
+row 3 - power level data
+row 4 - display placeholder
+row 5 - ping module data
+
