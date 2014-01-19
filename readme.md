@@ -25,6 +25,12 @@ The edge of the head unit, that meets with the users head, was shaped by photo m
 
 A number of apps were coded to run on the head unit hardware. Including highly accurate power level meters, distance sensors, and a software friend to give you words of encouragement.
 
+Images of the project being built can be found in the `pictures` folder.
+
+Notes that lead to the finished product can be found in `notes`.
+
+Resources used to build the process can be found in `resources`.
+
 ## Power Level
 
 The user's power level, measured by accelerometers in the head unit, is displayed on the internal screen. The LED strip on the outside of the head unit indicates the power level, 1 LED per 1000 power units, and blinking red when *over 9000*.
