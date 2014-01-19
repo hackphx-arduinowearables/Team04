@@ -45,7 +45,7 @@ A stenciled image of a human face was applied to the front of the head unit to m
 
 ## External Device ports
 
-Many of the Xadow pins are connects to quarter inch jacks, a very standard cable format. External devices can be connected to the head unit with corresponding quarter inch jacks, offering unprecidented expandibility.
+Many of the Xadow pins are connect to quarter inch jacks, a very standard cable format. External devices can be connected to the head unit with corresponding quarter inch jacks, offering unprecidented expandibility.
 
 ## Destance sensor
 
