@@ -47,7 +47,7 @@ A stenciled image of a human face was applied to the front of the head unit to m
 
 Many of the Xadow pins are connect to quarter inch jacks, a very standard cable format. External devices can be connected to the head unit with corresponding quarter inch jacks, offering unprecidented expandibility.
 
-## Destance sensor
+## Distance sensor
 
 Extending from the head unit, by wire, is connected a glove supplemented by a ultra sonic distance sensor. The distance read by the sensor is displayed on the internal screen. Distances under 2 feet are measured in inches, over 2 feet is measured in feet.
 
