@@ -21,7 +21,7 @@ Our project, also appropriately referred to as *The Google Glass Killer*, uses t
 
 ## General Design process.
 
-The edge of the head unit, that meets with the users head, was shaped by photo mapping real human heads (resulting imagery in the resources folder). From there, the 'box' of the head unit was designed around that edge. The box was then physically sewn and zip tied to raquet ball eye proection (eye protection of the higher caliber). Protective blue foam (chosen for its comfort) was added to the edge that meets the users head. 3 Labeled audio jacks were added to the back side of the head unit. A human face was spray painted on to the front side.
+The edge of the head unit, that meets with the users head, was shaped by photo mapping real human heads (imagery in the resources folder). From there, the 'box' of the head unit was designed around that edge. The box was then physically sewn and zip tied to raquet ball eye proection (eye protection of the highest caliber). Protective blue foam (chosen for its comfort) was added to the edge that meets the users head. 3 Labeled audio jacks were added to the back side of the head unit. A human face was spray painted on to the front side.
 
 A number of apps were coded to run on the head unit hardware. Including highly accurate power level meters, distance sensors, and a software friend to give you words of encouragement.
 
