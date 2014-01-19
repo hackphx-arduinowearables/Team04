@@ -1,3 +1,13 @@
+/*#########################################
+ #                 Team 4                 #
+ #               "GG-Killer"              #
+ ##########################################
+ #  Members:                              #
+ #      Todd Harrison                     #
+ #      Chad Stearns                      #
+ #      Joe Fleming                       #
+ #      Doug Sheridan                     #
+ ##########################################*/
 #include <Wire.h>
 #include "FastLED.h"
 #include <ADXL345.h>
@@ -23,8 +33,8 @@ int powerLevel;
 int count;
 
 // Ping variables
-int pingPin = 7;  // pin for ping sensor (should use A5 on xadow)
-int ledPin = 2;   // pin turn on LED (should use 1 on xadow)
+int pingPin = 5;  // pin for ping sensor (should use A5 on xadow)
+int ledPin = 1;   // pin turn on LED (should use 1 on xadow)
 long duration;    // duration for ping return with evaluates to distance
 long inches;      // inches to object
 long feet;        // feet to object
@@ -32,7 +42,7 @@ long feet;        // feet to object
 void setup() {
   initSerial();
   initDisplay();
-  //pingSetup();
+  pingSetup();
   FastLED.addLeds<NEOPIXEL, DATA_PIN, RGB>(leds, NUM_LEDS);
 }
 
@@ -40,24 +50,27 @@ void loop() {
   // Get accelerometer data
   int x,y,z;
 
-  // Perform all Ping ops
-  //pingStart();
-  
-  // Decrease power level periodically
-  dec_powerLevel();
-  
   //read the accelerometer values and store them in variables  x,y,z
   adxl.readXYZ(&x, &y, &z);
 
-  // Calculate new power level
+  // Perform all Ping ops
+  pingStart();
+  
+  // Decrease power level periodically
+  dec_powerLevel();
+
+  // Calculate the new power level
   powerLevel += get_powerLevel();
   
   // Print the power level
   print_powerLevel();
-  
+
   // Draw the power meter
   clear_5thRow();
   draw_powerMeter(powerLevel);
+
+  // Print the ping data
+  print_pingData();
 
   // Update the LED strip to represent the power level
   updateLED(powerLevel);
@@ -152,11 +165,8 @@ void draw_powerMeter(int x) {
       case 8:
         meterString = "########";
         break;
-      case 9:
-        meterString = "#########";
-        break;
       default:
-        meterString = "Over 9,000!";
+        meterString = "OVER 9000!!";
         break;
     }
 
@@ -166,13 +176,28 @@ void draw_powerMeter(int x) {
     SeeedOled.putString("]");
 }
 
-void print_powerLevel() {
-    if (DEBUG) {
-      Serial.print("Power level :\n");
-      Serial.print(powerLevel);
-      Serial.print("\n");
+void print_pingData() {
+    long fixedInches;
+
+    if (inches >= 12) {
+      fixedInches = inches % 12;
+    } else {
+      fixedInches = inches;
     }
-    
+
+    SeeedOled.setTextXY(6,0);
+    SeeedOled.putString("Distance :");
+    SeeedOled.setTextXY(6,10);
+    SeeedOled.putNumber(feet);
+    SeeedOled.setTextXY(6,12);
+    SeeedOled.putString("\'");
+    SeeedOled.setTextXY(6,13);
+    SeeedOled.putNumber(fixedInches);
+    SeeedOled.setTextXY(6,15);
+    SeeedOled.putString("\"");
+}
+
+void print_powerLevel() {
     SeeedOled.setTextXY(1,0);
     SeeedOled.putString("  Power Level  ");
     SeeedOled.setTextXY(2,0);
@@ -207,7 +232,7 @@ void dec_powerLevel() {
       powerLevel -= rand() % 700;
     }
 
-    // Protect the system from going into the negatives
+    // Protect powerLevel from going into the negatives
     negSafety();
 
     // Reset the count
@@ -235,7 +260,7 @@ int get_powerLevel() {
 }
 
 void pingStart() {
-  ping(); 
+  ping();
   
   //turn on led if objects are under 3 feet
   if (feet < 3) {
@@ -255,7 +280,6 @@ void pingStart() {
   }
   
   Serial.println();
-  delay(10);
 }
 
 void pingSetup() {
