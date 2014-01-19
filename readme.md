@@ -4,7 +4,10 @@ Big thanks to everyone that made this event a possibility. It was awesome!
 
 # Over 9000
 
-Our project, also appropriately referred to as The Google Glass Killer, uses the following components components:
+![Head Unit](http://i.imgur.com/kUpPTDW.jpg)
+![Power Display](http://i.imgur.com/6uM2GPN.jpg)
+
+Our project, also appropriately referred to as *The Google Glass Killer*, uses the following components components:
 
 - Xadow
 - 3-Axis Digital Accelerometer ADXL345
