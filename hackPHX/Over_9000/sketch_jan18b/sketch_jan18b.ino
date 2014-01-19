@@ -1,12 +1,12 @@
 /*#########################################
- #                 Team 4                 #
- #               "GG-Killer"              #
+ #                Team 4                  #
+ #            "The GG-Killer"             #
  ##########################################
- #  Members:                              #
- #      Todd Harrison                     #
- #      Chad Stearns                      #
- #      Joe Fleming                       #
- #      Doug Sheridan                     #
+ #  Created by:                           #
+ #    Todd Harrison,  "Arduino-King"      #
+ #    Chad Stearns,   "Craft-Master"      #
+ #    Joe Fleming,    "Jack-of-All-Trades"#
+ #    Doug Sheridan,  "The Hacker"        #
  ##########################################*/
 #include <Wire.h>
 #include "FastLED.h"
