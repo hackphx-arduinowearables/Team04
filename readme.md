@@ -62,7 +62,13 @@ We managed to stick to parts found in the lab, in addition to the parts provided
 ## Pictures
 
 Enjoy!
-
+![img](https://raw2.github.com/w33ble/hackphx2014/master/notes/0.png)
+![img](https://raw2.github.com/w33ble/hackphx2014/master/notes/1.png)
+![img](https://raw2.github.com/w33ble/hackphx2014/master/notes/2.png)
+![img](https://raw2.github.com/w33ble/hackphx2014/master/notes/3.png)
+![img](https://raw2.github.com/w33ble/hackphx2014/master/notes/4.png)
+![img](https://raw2.github.com/w33ble/hackphx2014/master/notes/5.png)
+![img](https://raw2.github.com/w33ble/hackphx2014/master/notes/notes%20and%20ideas.PNG)
 ![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2013.02.05.jpg "Pic 01")
 ![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2014.02.01.jpg "Pic 02")
 ![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2016.38.35.jpg "Pic 03")
