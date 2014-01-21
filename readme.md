@@ -4,9 +4,12 @@ Big thanks to everyone that made this event a possibility. It was awesome!
 
 # Over 9000
 
-![Head Unit](http://i.imgur.com/kUpPTDW.jpg)
-![Head Unit2](http://i.imgur.com/77QKJG6.jpg?1)
-![Power Display](http://i.imgur.com/6uM2GPN.jpg)
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2014.02.01.jpg "Pic 02")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2018.01.37.jpg "Pic 04")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2019.22.08.jpg "Pic 10")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2020.29.04.jpg "Pic 13")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/6uM2GPN.jpg "Pic 13.2")
+
 
 Our project, also appropriately referred to as *The Google Glass Killer*, uses the following components components:
 
@@ -55,3 +58,25 @@ Extending from the head unit, by wire, is connected a glove supplemented by a ul
 ## Budget
 
 We managed to stick to parts found in the lab, in addition to the parts provided to us. Our out-of-pocket cost was $0.00 USD.
+
+## Pictures
+
+Enjoy!
+
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2013.02.05.jpg "Pic 01")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2014.02.01.jpg "Pic 02")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2016.38.35.jpg "Pic 03")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2018.01.37.jpg "Pic 04")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2018.39.50.jpg "Pic 05")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2018.49.02.jpg "Pic 06")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2019.06.09.jpg "Pic 07")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2019.07.34.jpg "Pic 08")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2019.08.02.jpg "Pic 09")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2019.22.08.jpg "Pic 10")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2019.22.20.jpg "Pic 11")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2019.30.08.jpg "Pic 12")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2020.29.04.jpg "Pic 13")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/6uM2GPN.jpg "Pic 13.2")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2022.50.23.jpg "Pic 14")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2022.54.31.jpg "Pic 15")
+![img](https://raw2.github.com/hackphx-arduinowearables/Team04/master/pictures/2014-01-18%2022.57.39.jpg "Pic 16")
