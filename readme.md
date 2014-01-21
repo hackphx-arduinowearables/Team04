@@ -5,6 +5,7 @@ Big thanks to everyone that made this event a possibility. It was awesome!
 # Over 9000
 
 ![Head Unit](http://i.imgur.com/kUpPTDW.jpg)
+![Head Unit2](http://i.imgur.com/77QKJG6.jpg?1)
 ![Power Display](http://i.imgur.com/6uM2GPN.jpg)
 
 Our project, also appropriately referred to as *The Google Glass Killer*, uses the following components components:
